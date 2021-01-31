@@ -1,19 +1,15 @@
 
-void Tokenizer(char recv[])
+bool Tokenizer(char recv_msg[])
 {
-  Serial.print("Recv: ");
-  Serial.println(recv);
 
   if (!strcmp(recv, "")) {
-    Serial.print("Recv in if: ");
-    Serial.println(recv);
-    Serial.println("NULL string recieved");
-    return;
+    //Serial.println("NULL string recieved");
+    return false;
   }
 
   memset(WiFiHandler, '\0', sizeof(handler)*argsLen); // Filling WiFiHandler with NULL values
 
-  char* token = strtok(recv, del); // Initialize token to split recv by delimiter
+  char* token = strtok(recv_msg, del); // Initialize token to split recv by delimiter
 
   uint16_t i = 0;
   bool flag = false;
@@ -23,7 +19,7 @@ void Tokenizer(char recv[])
     if (i == 0 and strcmp(token, root_previx))
     {
       Serial.println("Root prefix does not match");
-      return;
+      return false;
     }
 
     // If it is not first root_previx
@@ -52,23 +48,26 @@ void Tokenizer(char recv[])
     Serial.println(WiFiHandler[i].handlerVal);
     }
     Serial.println(); */
+  return true;
 }
 
 void effectHandler(char toSPIFFS[])
 {
+  //Serial.printf("4: %d\n", millis()); // 51657
   if (!strcmp(WiFiHandler[0].handlerChar, "EFF"))
   {
     WriteSPIFFS(toSPIFFS);
-    char tmp[100];
-    ReadSPIFFS(tmp);
-    Serial.print("Read SPIFFS: ");
-    Serial.println(tmp);
+    //Serial.printf("5: %d\n", millis()); // 51664
+    /*char tmp[100];
+      ReadSPIFFS(tmp);
+      Serial.print("Read SPIFFS: ");
+      Serial.println(tmp);*/
 
     switch (WiFiHandler[0].handlerVal) // Tutn on effect prepare functions proceeding from WiFiHandler array value
     {
       case 1:
         // Extract from WiFiHandler arguments for SPECIAL EFFECT
-                colorEffect(); // Color solid effect
+        colorEffect(); // Color solid effect
         break;
       case 2:
         //Extract from WiFiHandler arguments for SPECIAL EFFECT
@@ -78,6 +77,6 @@ void effectHandler(char toSPIFFS[])
         gradientEffect_2Val();
         break;
     }
-
+  //Serial.printf("6: %d\n", millis()); // 51666
   }
 }

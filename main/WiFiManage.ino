@@ -13,26 +13,24 @@ static void handleTimeOut(void* arg, AsyncClient* client, uint32_t time) {
 }
 
 static void handleData(void* arg, AsyncClient* client, void *data, size_t len) {
-  Serial.printf("\n data received from client %s \n", client->remoteIP().toString().c_str());
+  //Serial.printf("\n data received from client %s \n", client->remoteIP().toString().c_str());
   //Serial.write((uint8_t*)data, len);
 
-  char recv[len];
-  memset(recv, 0, sizeof(char)*(len+10));
+  memset(recv, 0, sizeof(char)*(argsLen));
   
   for (int i = 0; i < len; i++) {
-    recv[i] = (char)((uint8_t*)data)[i];
+    
+    char recvChar = (char)((uint8_t*)data)[i];
+    if(recvChar == '!')
+      break;
+      
+    recv[i] = recvChar;
 
-  }
-  
+  } 
   Serial.println();
   Serial.println(len);
   Serial.println(recv);
-  
-  char toSPIFFS[len];
-  strcpy(toSPIFFS, recv);
-
-  Tokenizer(recv);
-  effectHandler(toSPIFFS);
+ 
   /* reply to client
     if (client->space() > 32 && client->canSend()) {
     char reply[32];

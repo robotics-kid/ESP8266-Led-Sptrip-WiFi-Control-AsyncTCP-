@@ -11,6 +11,7 @@
 static DNSServer DNS;
 
 static std::vector<AsyncClient*> clients; // a list to hold all clients
+char recv[argsLen];
 
 void setup() {
   Serial.begin(115200);
@@ -50,4 +51,14 @@ void setup() {
 
 void loop() {
   DNS.processNextRequest();
+
+  char toSPIFFS[argsLen];
+  strcpy(toSPIFFS, recv);
+
+  //Serial.printf("1: %d\n", millis()); // 229633
+  if (Tokenizer(recv)) {
+    //Serial.printf("2: %d\n", millis()); // 229634
+    effectHandler(toSPIFFS);
+    //Serial.printf("3: %d\n", millis()); // 229647
+  }
 }
