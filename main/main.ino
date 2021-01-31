@@ -6,6 +6,7 @@
 #include <FastLED.h>
 
 #include "Settings.h"
+#include "StripManage.h"
 
 static DNSServer DNS;
 
