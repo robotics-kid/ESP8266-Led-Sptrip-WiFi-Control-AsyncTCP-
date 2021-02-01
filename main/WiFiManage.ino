@@ -17,17 +17,22 @@ static void handleData(void* arg, AsyncClient* client, void *data, size_t len) {
   //Serial.write((uint8_t*)data, len);
 
   memset(recv, 0, sizeof(char)*(argsLen));
-  
+
+  char util[len];
   for (int i = 0; i < len; i++) {
     
     char recvChar = (char)((uint8_t*)data)[i];
-    if(recvChar == '!')
+    if(recvChar == '!'){
+      Serial.println("\n\'!\' reached");
+      for(int j = 0; j < len-i; j++){
+        util[j] = (char)((uint8_t*)data)[i];
+      }
       break;
-      
+    }
     recv[i] = recvChar;
 
   } 
-  Serial.println();
+  //Serial.println();
   Serial.println(len);
   Serial.println(recv);
  
