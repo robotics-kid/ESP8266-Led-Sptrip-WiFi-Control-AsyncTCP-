@@ -4,7 +4,6 @@
 #include <DNSServer.h>
 #include <vector>
 #include <FastLED.h>
-#include <LittleFS.h>
 
 #include "Settings.h"
 #include "StripManage.h"
@@ -12,10 +11,7 @@
 static DNSServer DNS;
 
 static std::vector<AsyncClient*> clients; // a list to hold all clients
-
 char recv[argsLen];
-char mSend[argsLen];
-bool RequestRecieved = true;
 
 void setup() {
   Serial.begin(115200);
@@ -46,27 +42,10 @@ void setup() {
   ledsCorrection();
 
   /* Mounting SPIFFS on ESP */
-  if (!LittleFS.begin()) // Starting SPIFFS
+  if (!SPIFFS.begin()) // Starting SPIFFS
   {
     Serial.printf("\n Error mounting the SPIFFS file system \n");
     return;
-  }
-
-  char fromSPIFFS[argsLen];
-  char toSPIFFS[argsLen];
-
-  ReadSPIFFS(fromSPIFFS);
-
-  strcpy(toSPIFFS, fromSPIFFS);
-  Serial.println();
-  Serial.print("from SPIFFS: ");
-  Serial.println(fromSPIFFS);
-
-  Serial.print("TOKENIZER RETURN: ");
-  Serial.println(Tokenizer(fromSPIFFS));
-  if (Tokenizer(fromSPIFFS) == 1) {
-    Serial.println("1");
-    effectHandler(toSPIFFS);
   }
 }
 
@@ -75,11 +54,11 @@ void loop() {
 
   char toSPIFFS[argsLen];
   strcpy(toSPIFFS, recv);
-  memset(WiFiHandler, '\0', sizeof(handler)*argsLen); // Filling WiFiHandler with NULL values
 
-  switch (Tokenizer(recv))
-  {
-    case 1: effectHandler(toSPIFFS);
-    case 2: handshaking(mSend);
+  //Serial.printf("1: %d\n", millis()); // 229633
+  if (Tokenizer(recv)) {
+    //Serial.printf("2: %d\n", millis()); // 229634
+    effectHandler(toSPIFFS);
+    //Serial.printf("3: %d\n", millis()); // 229647
   }
 }

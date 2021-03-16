@@ -1,11 +1,13 @@
 
-uint8_t Tokenizer(char recv_msg[])
+bool Tokenizer(char recv_msg[])
 {
 
-  if (!strcmp(recv_msg, "")) {
+  if (!strcmp(recv, "")) {
     //Serial.println("NULL string recieved");
-    return 0;
+    return false;
   }
+
+  memset(WiFiHandler, '\0', sizeof(handler)*argsLen); // Filling WiFiHandler with NULL values
 
   char* token = strtok(recv_msg, del); // Initialize token to split recv by delimiter
 
@@ -17,7 +19,7 @@ uint8_t Tokenizer(char recv_msg[])
     if (i == 0 and strcmp(token, root_previx))
     {
       Serial.println("Root prefix does not match");
-      return 0;
+      return false;
     }
 
     // If it is not first root_previx
@@ -37,14 +39,6 @@ uint8_t Tokenizer(char recv_msg[])
     i++;
   }
 
-  if (!strcmp(WiFiHandler[0].handlerChar, "REQ")) {
-    Serial.println("2 returned");
-    RequestRecieved = true;
-    return 2;
-  }
-
-
-
   /* Serial.println();
     for(int i =0; i < argsLen; i++){
     Serial.print("Char: ");
@@ -54,7 +48,7 @@ uint8_t Tokenizer(char recv_msg[])
     Serial.println(WiFiHandler[i].handlerVal);
     }
     Serial.println(); */
-  return 1;
+  return true;
 }
 
 void effectHandler(char toSPIFFS[])
@@ -83,51 +77,6 @@ void effectHandler(char toSPIFFS[])
         gradientEffect_2Val();
         break;
     }
-    //Serial.printf("6: %d\n", millis()); // 51666
-  }
-}
-
-void handshaking(char mSend[])
-{
-  memset(mSend, 0, sizeof(char)*argsLen);
-  char tmp[3];
-  if (!strcmp(WiFiHandler[0].handlerChar, "REQ"))
-  {
-
-    switch (WiFiHandler[0].handlerVal) // Tutn on effect prepare functions proceeding from WiFiHandler array value
-    {
-      case 1:
-        //FoViBalTLight;LDT:1;STT:1!
-        strcat(mSend, "FoViBalTLight;LDT:");
-        itoa(LEDS_TYPE, tmp, 10);
-        strcat(mSend, tmp);
-        strcat(mSend, ";STT:");
-        memset(tmp, 0, sizeof(char)*strlen(tmp));
-        itoa(STRIP_TYPE, tmp, 10);
-        strcat(mSend, tmp);
-        strcat(mSend, "!");
-        Serial.println(mSend);
-        break;
-      case 2:
-        //FoViBalTLight;DEV:1;DEV:2;DEV:3 ...
-        strcat(mSend, "FoViBalTLight");
-        String preIp = "";
-        AsyncClient* preIP = 0;
-        for (uint16_t i = 0; i < clients.size(); i++)
-        {
-          if (clients[i]->canSend() and preIp != clients[i]->remoteIP().toString().c_str()) {
-            strcat(mSend, ";DEV:");
-            itoa(i, tmp, 10);
-            strcat(mSend, tmp);
-            preIp = clients[i]->remoteIP().toString().c_str();
-            Serial.println(clients[i]->remoteIP().toString().c_str());
-            //preIP = clients[i];
-          }
-          
-        }
-        strcat(mSend, "!");
-        Serial.println(mSend);
-        break;
-    }
+  //Serial.printf("6: %d\n", millis()); // 51666
   }
 }
