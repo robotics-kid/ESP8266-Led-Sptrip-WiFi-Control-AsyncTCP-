@@ -3,7 +3,7 @@
 void ReadSPIFFS(char readFromSPIFFS[])
 {
   
-  File file  = SPIFFS.open(SPIFFS_file_name, "r"); // Openning file from SPIFFS
+  File file  = LittleFS.open(SPIFFS_file_name, "r"); // Openning file from SPIFFS
   
   if (!file) // Cheking if file opened normaly
   {
@@ -23,7 +23,7 @@ void ReadSPIFFS(char readFromSPIFFS[])
 void WriteSPIFFS(char toWrite[])
 {
   //Serial.printf("4.1: %d\n", millis()); // 32994
-  File file = SPIFFS.open(SPIFFS_file_name, "w"); // Openning file from SPIFFS
+  File file = LittleFS.open(SPIFFS_file_name, "w"); // Openning file from SPIFFS
   //Serial.printf("4.2: %d\n", millis()); // 32999
   if (!file) // Cheking if file opened normaly
   {
