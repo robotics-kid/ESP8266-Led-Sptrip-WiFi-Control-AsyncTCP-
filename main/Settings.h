@@ -12,11 +12,10 @@
 #define NUM_LEDS WIDTH*HEIGHT
 
 //Soft AP configurations
-#define SSID "FoViBalTLight_01"
+#define SERVER_HOST_NAME "FoViBalTLight_01"
 #define PASSWORD "123456789"
 
 //Server host name and maximum connected clients
-#define SERVER_HOST_NAME "FoViBalTLight_01"
 #define MAX_CLIENTS 4                 // Maximum clients connection
 
 //Ports definition
@@ -24,7 +23,7 @@
 #define DNS_PORT 53
 
 //Protocol preferences
-const char root_previx[] =          "FoViBalTLight";  // root previx of protocol (root_previx:F:1:H:230..)
+const char root_previx[] =    "FoViBalTLight";  // root previx of protocol (root_previx:F:1:H:230..)
 const size_t argsLen =        100;              // maximum recieve date length
 const size_t argsPrevixLen =  4;
 const char del[3] =           ":;";             // Default protocol value delimiter

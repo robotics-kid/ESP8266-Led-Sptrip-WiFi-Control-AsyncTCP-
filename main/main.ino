@@ -23,7 +23,7 @@ void setup() {
 
   /*WiFi SetUp*/
   // create access point
-  while (!WiFi.softAP(SSID, PASSWORD, 6, false, MAX_CLIENTS)) {
+  while (!WiFi.softAP(SERVER_HOST_NAME, PASSWORD, 6, false, MAX_CLIENTS)) {
     delay(500);
   }
 
