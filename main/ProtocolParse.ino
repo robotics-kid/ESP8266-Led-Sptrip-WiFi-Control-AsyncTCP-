@@ -2,6 +2,9 @@
 uint8_t Tokenizer(char recv_msg[])
 {
 
+  Serial.print("Recieve in Tokenizer(): ");
+  Serial.println(recv_msg);
+
   if (!strcmp(recv_msg, "")) {
     //Serial.println("NULL string recieved");
     return 0;
@@ -13,6 +16,9 @@ uint8_t Tokenizer(char recv_msg[])
   bool flag = false;
   while (token != NULL)
   {
+
+    Serial.print("Token: ");
+    Serial.println(token);
     // Checks if token[0] is equal to root_previx
     if (i == 0 and strcmp(token, root_previx))
     {
@@ -36,7 +42,7 @@ uint8_t Tokenizer(char recv_msg[])
     flag = true;
     i++;
   }
-
+  
   if (!strcmp(WiFiHandler[0].handlerChar, "REQ")) {
     Serial.println("2 returned");
     RequestRecieved = true;
@@ -44,8 +50,7 @@ uint8_t Tokenizer(char recv_msg[])
   }
 
 
-
-  /* Serial.println();
+   Serial.println();
     for(int i =0; i < argsLen; i++){
     Serial.print("Char: ");
     Serial.println(WiFiHandler[i].handlerChar);
@@ -53,19 +58,20 @@ uint8_t Tokenizer(char recv_msg[])
     Serial.print("Val: ");
     Serial.println(WiFiHandler[i].handlerVal);
     }
-    Serial.println(); */
+    Serial.println(); 
   return 1;
 }
 
 void effectHandler(char toSPIFFS[])
 {
+  Serial.println("In effect handler");
   // FoVinalTLight;RED:89;GRN:7;BLU:56;WHT:
   //Serial.printf("4: %d\n", millis()); // 51657
   if (!strcmp(WiFiHandler[0].handlerChar, "EFF"))
   {
 
     for (uint16_t i; i < argsLen; i++) {
-      if (!strcat(WiFiHandler[i].handlerChar, "DEV")) {
+      if (!strcmp(WiFiHandler[i].handlerChar, "DEV")) {
 
         uint16_t n = WiFiHandler[i].handlerVal;
         uint8_t num = 0;
@@ -101,6 +107,8 @@ void effectHandler(char toSPIFFS[])
       ReadSPIFFS(tmp);
       Serial.print("Read SPIFFS: ");
       Serial.println(tmp);*/
+
+      Serial.println(WiFiHandler[0].handlerVal);
 
     switch (WiFiHandler[0].handlerVal) // Tutn on effect prepare functions proceeding from WiFiHandler array value
     {

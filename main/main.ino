@@ -1,4 +1,5 @@
 
+
 #include <ESP8266WiFi.h>
 #include <ESPAsyncTCP.h>
 #include <DNSServer.h>
@@ -18,13 +19,15 @@ char recv[argsLen];
 char mSend[argsLen];
 bool RequestRecieved = true;
 bool WiFiConnection = false;
+bool msg_recieved = false;
 
 void setup() {
   Serial.begin(115200);
   delay(20);
-
+  
   /*Try connection to existed network*/
-  if ( WiFi.begin(SERVER_HOST_NAME, PASSWORD) == WL_CONNECTED) {
+  
+  /*if ( WiFi.begin(SERVER_HOST_NAME, PASSWORD) == WL_CONNECTED) {
 
     Serial.println("Connected to wifi");
     Serial.println("\nStarting connection...");
@@ -39,7 +42,7 @@ void setup() {
       WiFiConnection = true;
     }
   }
-  else {
+  else {*/
 
     /*WiFi SetUp*/
     // create access point
@@ -54,7 +57,7 @@ void setup() {
     AsyncServer* server = new AsyncServer(TCP_PORT); // start listening on tcp port 7050
     server->onClient(&handleNewClient, server);
     server->begin();
-  }
+  //}
   /* Initializing leds. Based on LEDS TYPE */
 #if LEDS_TYPE == 1
   FastLED.addLeds<WS2812B, DATA_PIN, COLOR_ORDER>(ledsRGB, getRGBWsize(NUM_LEDS)); // Set up for SK6812
@@ -85,7 +88,7 @@ void setup() {
   Serial.print("TOKENIZER RETURN: ");
   Serial.println(Tokenizer(fromSPIFFS));
   if (Tokenizer(fromSPIFFS) == 1) {
-    Serial.println("1");
+    Serial.println("Effect extracted from SPIFFS");
     effectHandler(toSPIFFS);
   }
 }
@@ -93,13 +96,16 @@ void setup() {
 void loop() {
   DNS.processNextRequest();
 
-  char toSPIFFS[argsLen];
-  strcpy(toSPIFFS, recv);
-  memset(WiFiHandler, '\0', sizeof(handler)*argsLen); // Filling WiFiHandler with NULL values
-
-  switch (Tokenizer(recv))
-  {
-    case 1: effectHandler(toSPIFFS);
-    case 2: handshaking(mSend);
+  if (msg_recieved){
+    char toSPIFFS[argsLen];
+    strcpy(toSPIFFS, recv);
+    memset(WiFiHandler, '\0', sizeof(handler)*argsLen); // Filling WiFiHandler with NULL values
+  
+    switch (Tokenizer(recv))
+      {
+        case 1: effectHandler(toSPIFFS);
+        case 2: handshaking(mSend);
+      }
+      msg_recieved = false;
   }
 }

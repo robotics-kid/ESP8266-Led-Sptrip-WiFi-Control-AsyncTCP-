@@ -1,7 +1,7 @@
 #pragma once
 
 //Led strip definitions
-#define DATA_PIN              6
+#define DATA_PIN              D6
 #define LEDS_TYPE             1                 // 1 - SK6812; 2 - WS2812B; 3 - WS2812; 4 - WS2811
 #define MAX_BRIGHTNESS        250
 #define COLOR_ORDER           RGB               // GRB - WS2812B
