@@ -22,7 +22,7 @@ bool WiFiConnection = false;
 void setup() {
   Serial.begin(115200);
   delay(20);
-  
+
   /*Try connection to existed network*/
   if ( WiFi.begin(SERVER_HOST_NAME, PASSWORD) == WL_CONNECTED) {
 
