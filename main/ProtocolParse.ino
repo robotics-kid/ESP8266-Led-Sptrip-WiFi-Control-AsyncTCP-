@@ -14,6 +14,8 @@ uint8_t Tokenizer(char recv_msg[])
 
   uint16_t i = 0;
   bool flag = false;
+
+  Serial.println(recv_msg);
   while (token != NULL)
   {
 
