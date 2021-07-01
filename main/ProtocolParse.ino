@@ -59,42 +59,9 @@ uint8_t Tokenizer(char recv_msg[])
 
 void effectHandler(char toSPIFFS[])
 {
-  // FoVinalTLight;RED:89;GRN:7;BLU:56;WHT:
   //Serial.printf("4: %d\n", millis()); // 51657
   if (!strcmp(WiFiHandler[0].handlerChar, "EFF"))
   {
-
-    for (uint16_t i; i < argsLen; i++) {
-      if (!strcat(WiFiHandler[i].handlerChar, "DEV")) {
-
-        uint16_t n = WiFiHandler[i].handlerVal;
-        uint8_t num = 0;
-        while (n != 0)
-        {
-          n /= 10; //to get the number except the last digit.
-          num++; //when divided by 10, updated the count of the digits
-        }
-
-        strncpy(toSPIFFS, toSPIFFS, strlen(toSPIFFS) - 5 - num);
-        Serial.println(toSPIFFS);
-
-        if (clients[i]->space() > argsLen && clients[i]->canSend()) {
-          //char reply[32];
-          //sprintf(reply, "this is from %s", SERVER_HOST_NAME);
-          clients[i]->add(toSPIFFS, strlen(toSPIFFS));
-          clients[i]->send();
-
-        }
-      }
-    }
-
-
-
-
-
-
-
-
     WriteSPIFFS(toSPIFFS);
     //Serial.printf("5: %d\n", millis()); // 51664
     /*char tmp[100];
@@ -156,7 +123,7 @@ void handshaking(char mSend[])
             Serial.println(clients[i]->remoteIP().toString().c_str());
             //preIP = clients[i];
           }
-
+          
         }
         strcat(mSend, "!");
         Serial.println(mSend);

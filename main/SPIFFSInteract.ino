@@ -2,20 +2,20 @@
 /* Read from SPIFFS: read string ReadSPIFFS(file name) */
 void ReadSPIFFS(char readFromSPIFFS[])
 {
-
+  
   File file  = LittleFS.open(SPIFFS_file_name, "r"); // Openning file from SPIFFS
-
+  
   if (!file) // Cheking if file opened normaly
   {
     Serial.println("Failed to open file for reading");
     strcat(readFromSPIFFS, "-1");
   }
-
+  
   while (file.available()) // Open while() loop while file is available
   {
     file.readStringUntil('\n').toCharArray(readFromSPIFFS, argsLen); // Read from file unti  l \n while file is available
   }
-
+  
   file.close();
 }
 

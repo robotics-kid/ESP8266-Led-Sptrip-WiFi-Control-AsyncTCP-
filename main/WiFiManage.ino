@@ -16,42 +16,42 @@ static void handleData(void* arg, AsyncClient* client, void *data, size_t len) {
   //Serial.printf("\n data received from client %s \n", client->remoteIP().toString().c_str());
   //Serial.write((uint8_t*)data, len);
 
-  memset(recv, 0, sizeof(char) * (argsLen));
+    memset(recv, 0, sizeof(char) * (argsLen));
 
-  char util[len];
-  for (int i = 0; i < len; i++) {
+    char util[len];
+    for (int i = 0; i < len; i++) {
 
-    char recvChar = (char)((uint8_t*)data)[i];
-    if (recvChar == '!')
-    {
-      for (int j = 0; j < len - i; j++)
+      char recvChar = (char)((uint8_t*)data)[i];
+      if (recvChar == '!')
       {
-        util[j] = (char)((uint8_t*)data)[i];
+        for (int j = 0; j < len - i; j++)
+        {
+          util[j] = (char)((uint8_t*)data)[i];
+        }
+        break;
       }
-      break;
+      recv[i] = recvChar;
     }
-    recv[i] = recvChar;
-  }
+    
+    Serial.println(len);
+    Serial.println(recv);
 
-  Serial.println(len);
-  Serial.println(recv);
-
-  /* reply to client
-    if (client->space() > 32 && client->canSend()) {
-    char reply[32];
-    sprintf(reply, "this is from %s", SERVER_HOST_NAME);
-    client->add(reply, strlen(reply));
-    client->send();
-    }*/
-  if (RequestRecieved) {
-    if (client->space() > argsLen && client->canSend()) {
+    /* reply to client
+      if (client->space() > 32 && client->canSend()) {
+      char reply[32];
+      sprintf(reply, "this is from %s", SERVER_HOST_NAME);
+      client->add(reply, strlen(reply));
+      client->send();
+      }*/
+    if(RequestRecieved){
+      if (client->space() > argsLen && client->canSend()) {
       //char reply[32];
       //sprintf(reply, "this is from %s", SERVER_HOST_NAME);
       client->add(mSend, strlen(mSend));
       client->send();
+      }
+      RequestRecieved = false;
     }
-    RequestRecieved = false;
-  }
 }
 
 /* server events */
