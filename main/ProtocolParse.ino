@@ -11,8 +11,11 @@ uint8_t Tokenizer(char recv_msg[])
 
   uint16_t i = 0;
   bool flag = false;
+
+  Serial.println(recv_msg);
   while (token != NULL)
   {
+    Serial.println(token);
     // Checks if token[0] is equal to root_previx
     if (i == 0 and strcmp(token, root_previx))
     {
