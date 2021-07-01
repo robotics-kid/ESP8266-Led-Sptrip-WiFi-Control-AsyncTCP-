@@ -15,7 +15,8 @@
 #define SERVER_HOST_NAME "FoViBalTLight_01"
 #define PASSWORD "123456789"
 
-//Server host name and maximum connected clients
+//Server IP and maximum connected clients
+IPAddress server(192, 168, 4, 1);     // Default ESP IP address
 #define MAX_CLIENTS 4                 // Maximum clients connection
 
 //Ports definition

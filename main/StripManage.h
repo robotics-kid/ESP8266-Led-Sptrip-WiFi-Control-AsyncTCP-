@@ -3,9 +3,9 @@
 //=======================
 //Led strip type definition (1 - strip; 2 - matrix)
 #if WIDTH == 1 or HEIGHT == 1
-  #define STRIP_TYPE 1
+#define STRIP_TYPE 1
 #else
-  #define STRIP_TYPE 2
+#define STRIP_TYPE 2
 #endif
 
 //Led arrays definition
@@ -15,16 +15,16 @@ CRGB leds[NUM_LEDS];                            // For all NONE WHITE LEDS
 
 //Leds controler name definition
 #if LEDS_TYPE == 2
-  #define STRIP_NAME WS2812B
+#define STRIP_NAME WS2812B
 #elif LEDS_TYPE == 3
-  #define STRIP_NAME WS2812
+#define STRIP_NAME WS2812
 #elif LEDS_TYPE == 4
-  #define STRIP_NAME WS2811
+#define STRIP_NAME WS2811
 #endif
 //=======================
 
 /* Configure leds color correction */
-static void ledsCorrection(){
+static void ledsCorrection() {
   switch (LEDS_TYPE) {
     case 1:
       FastLED.setCorrection(UncorrectedColor); // SK6812
