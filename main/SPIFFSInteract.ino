@@ -22,6 +22,7 @@ void ReadSPIFFS(char readFromSPIFFS[])
 /* Write string to SPIFFS: writed sucesefuly or not WriteSPIFFS(file name, writting string) */
 void WriteSPIFFS(char toWrite[])
 {
+  Serial.println(millis());
   //Serial.printf("4.1: %d\n", millis()); // 32994
   File file = LittleFS.open(SPIFFS_file_name, "w"); // Openning file from SPIFFS
   //Serial.printf("4.2: %d\n", millis()); // 32999
@@ -41,4 +42,6 @@ void WriteSPIFFS(char toWrite[])
   }
   //Serial.printf("4.5: %d\n", millis()); / 33000
   file.close();
+  Serial.println(millis());
+  Serial.println();
 }

@@ -20,6 +20,7 @@ char mSend[argsLen];
 bool RequestRecieved = true;
 bool WiFiConnection = false;
 bool msg_recieved = false;
+char oldRecv[argsLen];
 
 void setup() {
   Serial.begin(115200);
@@ -95,10 +96,15 @@ void setup() {
 
 void loop() {
   DNS.processNextRequest();
-
-  if (msg_recieved){
+  
+  //Serial.print("oldRecv: ");
+  //Serial.println(oldRecv);
+  if (msg_recieved and strcmp(oldRecv, recv)){
+    
+    //Serial.println(millis());
     char toSPIFFS[argsLen];
     strcpy(toSPIFFS, recv);
+    strcpy(oldRecv, recv);
     memset(WiFiHandler, '\0', sizeof(handler)*argsLen); // Filling WiFiHandler with NULL values
   
     switch (Tokenizer(recv))
@@ -107,5 +113,7 @@ void loop() {
         case 2: handshaking(mSend);
       }
       msg_recieved = false;
+      //Serial.println(millis());
   }
+
 }

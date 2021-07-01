@@ -1,9 +1,9 @@
 
 uint8_t Tokenizer(char recv_msg[])
 {
-
-  Serial.print("Recieve in Tokenizer(): ");
-  Serial.println(recv_msg);
+  
+  //Serial.print("Recieve in Tokenizer(): ");
+  //Serial.println(recv_msg);
 
   if (!strcmp(recv_msg, "")) {
     //Serial.println("NULL string recieved");
@@ -17,8 +17,9 @@ uint8_t Tokenizer(char recv_msg[])
   while (token != NULL)
   {
 
-    Serial.print("Token: ");
-    Serial.println(token);
+    //Serial.print("Token: ");
+    //
+    //Serial.println(token);
     // Checks if token[0] is equal to root_previx
     if (i == 0 and strcmp(token, root_previx))
     {
@@ -50,7 +51,7 @@ uint8_t Tokenizer(char recv_msg[])
   }
 
 
-   Serial.println();
+   /*Serial.println();
     for(int i =0; i < argsLen; i++){
     Serial.print("Char: ");
     Serial.println(WiFiHandler[i].handlerChar);
@@ -58,13 +59,16 @@ uint8_t Tokenizer(char recv_msg[])
     Serial.print("Val: ");
     Serial.println(WiFiHandler[i].handlerVal);
     }
-    Serial.println(); 
+    Serial.println(); */
+
+    
   return 1;
 }
 
 void effectHandler(char toSPIFFS[])
 {
-  Serial.println("In effect handler");
+  
+  //Serial.println("In effect handler");
   // FoVinalTLight;RED:89;GRN:7;BLU:56;WHT:
   //Serial.printf("4: %d\n", millis()); // 51657
   if (!strcmp(WiFiHandler[0].handlerChar, "EFF"))
@@ -82,7 +86,7 @@ void effectHandler(char toSPIFFS[])
         }
 
         strncpy(toSPIFFS, toSPIFFS, strlen(toSPIFFS) - 5 - num);
-        Serial.println(toSPIFFS);
+        //Serial.println(toSPIFFS);
 
         if (clients[i]->space() > argsLen && clients[i]->canSend()) {
           //char reply[32];
@@ -102,14 +106,15 @@ void effectHandler(char toSPIFFS[])
 
 
     WriteSPIFFS(toSPIFFS);
+
     //Serial.printf("5: %d\n", millis()); // 51664
     /*char tmp[100];
       ReadSPIFFS(tmp);
       Serial.print("Read SPIFFS: ");
       Serial.println(tmp);*/
 
-      Serial.println(WiFiHandler[0].handlerVal);
-
+      //Serial.println(WiFiHandler[0].handlerVal);
+;
     switch (WiFiHandler[0].handlerVal) // Tutn on effect prepare functions proceeding from WiFiHandler array value
     {
       case 1:
@@ -126,6 +131,7 @@ void effectHandler(char toSPIFFS[])
     }
     //Serial.printf("6: %d\n", millis()); // 51666
   }
+
 }
 
 void handshaking(char mSend[])
