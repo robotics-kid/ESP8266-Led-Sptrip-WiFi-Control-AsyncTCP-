@@ -1,3 +1,4 @@
+#pragma once
 
 //Definition of led types
 //=======================

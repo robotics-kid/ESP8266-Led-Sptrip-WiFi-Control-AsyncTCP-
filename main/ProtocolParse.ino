@@ -76,7 +76,7 @@ void effectHandler(char toSPIFFS[])
   if (!strcmp(WiFiHandler[0].handlerChar, "EFF"))
   {
 
-    for (uint16_t i; i < argsLen; i++) {
+    /*for (uint16_t i; i < argsLen; i++) {
       if (!strcmp(WiFiHandler[i].handlerChar, "DEV")) {
 
         uint16_t n = WiFiHandler[i].handlerVal;
@@ -98,7 +98,7 @@ void effectHandler(char toSPIFFS[])
 
         }
       }
-    }
+    }*/
 
 
 
@@ -159,8 +159,9 @@ void handshaking(char mSend[])
         break;
       case 2:
         //FoViBalTLight;DEV:1;DEV:2;DEV:3 ...
-        strcat(mSend, "FoViBalTLight");
+        /*strcat(mSend, "FoViBalTLight");
         String preIp = "";
+
         AsyncClient* preIP = 0;
         for (uint16_t i = 0; i < clients.size(); i++)
         {
@@ -175,7 +176,7 @@ void handshaking(char mSend[])
 
         }
         strcat(mSend, "!");
-        Serial.println(mSend);
+        Serial.println(mSend);*/
         break;
     }
   }

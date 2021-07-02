@@ -16,12 +16,11 @@
 #define PASSWORD "123456789"
 
 //Server IP and maximum connected clients
-IPAddress server(192, 168, 4, 1);     // Default ESP IP address
+IPAddress serverIP(192, 168, 4, 1);     // Default ESP IP address
 #define MAX_CLIENTS 4                 // Maximum clients connection
 
 //Ports definition
 #define TCP_PORT 6295
-#define DNS_PORT 53
 
 //Protocol preferences
 const char root_previx[] =    "FoViBalTLight";  // root previx of protocol (root_previx:F:1:H:230..)
@@ -40,3 +39,7 @@ struct handler {
 
 //Defining an array of handled values
 handler WiFiHandler[argsLen];
+
+WiFiServer server(TCP_PORT); // Setting up server
+WiFiClient serverClients[MAX_CLIENTS]; // Limit num of conected clients
+WiFiClient client;
