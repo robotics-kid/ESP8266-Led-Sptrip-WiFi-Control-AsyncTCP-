@@ -3,11 +3,11 @@
 void colorEffect()
 {
   if (LEDS_TYPE == 1) {
-    fill_solid(ledsW, NUM_LEDS, CRGBW(WiFiHandler[1].handlerVal, WiFiHandler[2].handlerVal, WiFiHandler[3].handlerVal, WiFiHandler[4].handlerVal));
+    fill_solid(ledsW, ledsDynamicNumber, CRGBW(WiFiHandler[1], WiFiHandler[2], WiFiHandler[3], WiFiHandler[4]));
   }
   else
   {
-    fill_solid(leds, NUM_LEDS, CRGB(WiFiHandler[1].handlerVal, WiFiHandler[2].handlerVal, WiFiHandler[3].handlerVal));
+    fill_solid(leds, ledsDynamicNumber, CRGB(WiFiHandler[1], WiFiHandler[2], WiFiHandler[3]));
   }
   FastLED.show();
 }
@@ -15,29 +15,31 @@ void colorEffect()
 // Fills led strip with white color with adjustable color temperature(SK6812 only)
 void whiteEffect()
 {
+  int16_t temp = 0;
   if (LEDS_TYPE == 1)
   {
+    temp = WiFiHandler[1];
+    temp *= 100;
+    temp = map(temp, 1800, 6500, -255, 765); // Map recieved kelvin values into my pseudo range from 0 - 510
+    WiFiHandler[2] = map(WiFiHandler[2], 0, 255, 0, MAX_BRIGHTNESS); // Map recieved brightnes value into brightness towards MAX_BRIGHTNES
 
-    WiFiHandler[1].handlerVal = map(WiFiHandler[1].handlerVal, 1800, 6500, -255, 765); // Map recieved kelvin values into my pseudo range from 0 - 510
-    WiFiHandler[2].handlerVal = map(WiFiHandler[2].handlerVal, 0, 255, 0, MAX_BRIGHTNESS); // Map recieved brightnes value into brightness towards MAX_BRIGHTNES
+    FastLED.setBrightness(WiFiHandler[2]);
 
-    FastLED.setBrightness(WiFiHandler[2].handlerVal);
-
-    if (WiFiHandler[1].handlerVal < 0 && WiFiHandler[1].handlerVal >= -255)
+    if (temp < 0 && temp >= -255)
     {
-      fill_solid(ledsW, NUM_LEDS, CRGBW(WiFiHandler[1].handlerVal * -1, 0, 0, 255));
+      fill_solid(ledsW, ledsDynamicNumber, CRGBW(temp * -1, 0, 0, 255));
     }
-    else if (WiFiHandler[1].handlerVal >= 0 && WiFiHandler[1].handlerVal <= 255)
+    else if (temp >= 0 && temp <= 255)
     {
-      fill_solid(ledsW, NUM_LEDS, CRGBW(WiFiHandler[1].handlerVal, WiFiHandler[1].handlerVal, WiFiHandler[1].handlerVal, 255));
+      fill_solid(ledsW, ledsDynamicNumber, CRGBW(temp, temp, temp, 255));
     }
-    else if (WiFiHandler[1].handlerVal > 255 && WiFiHandler[1].handlerVal <= 510)
+    else if (temp > 255 && temp <= 510)
     {
-      fill_solid(ledsW, NUM_LEDS, CRGBW(255, 255, 255, 255 - (WiFiHandler[1].handlerVal - 255)));
+      fill_solid(ledsW, ledsDynamicNumber, CRGBW(255, 255, 255, 255 - (temp - 255)));
     }
-    else if (WiFiHandler[1].handlerVal > 510 && WiFiHandler[1].handlerVal <= 765)
+    else if (temp > 510 && temp <= 765)
     {
-      fill_solid(ledsW, NUM_LEDS, CRGBW(510 - (WiFiHandler[1].handlerVal - 255), 510 - (WiFiHandler[1].handlerVal - 255), 255, 0));
+      fill_solid(ledsW, ledsDynamicNumber, CRGBW(510 - (temp - 255), 510 - (temp - 255), 255, 0));
     }
     FastLED.show();
   }
@@ -47,13 +49,13 @@ void whiteEffect()
 void gradientEffect_2Val()
 {
   if (LEDS_TYPE == 1) {
-    fill_gradient_RGBW(ledsW, NUM_LEDS, CRGBW( WiFiHandler[1].handlerVal,  WiFiHandler[2].handlerVal,  WiFiHandler[3].handlerVal,  WiFiHandler[4].handlerVal),
-                       CRGBW( WiFiHandler[5].handlerVal,  WiFiHandler[6].handlerVal,  WiFiHandler[7].handlerVal,  WiFiHandler[8].handlerVal));
+    fill_gradient_RGBW(ledsW, ledsDynamicNumber, CRGBW( WiFiHandler[1],  WiFiHandler[2],  WiFiHandler[3],  WiFiHandler[4]),
+                       CRGBW( WiFiHandler[5],  WiFiHandler[6],  WiFiHandler[7],  WiFiHandler[8]));
   }
   else
   {
-    fill_gradient_RGB(leds, NUM_LEDS, CRGB( WiFiHandler[1].handlerVal,  WiFiHandler[2].handlerVal,  WiFiHandler[3].handlerVal),
-                      CRGB( WiFiHandler[5].handlerVal,  WiFiHandler[6].handlerVal,  WiFiHandler[7].handlerVal));
+    fill_gradient_RGB(leds, ledsDynamicNumber, CRGB( WiFiHandler[1],  WiFiHandler[2],  WiFiHandler[3]),
+                      CRGB( WiFiHandler[5],  WiFiHandler[6],  WiFiHandler[7]));
   }
   FastLED.show();
 }

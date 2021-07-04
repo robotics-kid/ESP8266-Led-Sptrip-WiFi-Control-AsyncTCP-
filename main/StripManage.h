@@ -10,9 +10,9 @@
 #endif
 
 //Led arrays definition
-CRGBW ledsW[NUM_LEDS];
+CRGBW ledsW[PREDEFINED_NUM_LEDS];
 CRGB* ledsRGB = (CRGB*)&ledsW[0];               // For WHITE LEDS ONLY
-CRGB leds[NUM_LEDS];                            // For all NONE WHITE LEDS
+CRGB leds[PREDEFINED_NUM_LEDS];                            // For all NONE WHITE LEDS
 
 //Leds controler name definition
 #if LEDS_TYPE == 2

@@ -6,11 +6,14 @@
 #define MAX_BRIGHTNESS        250
 #define COLOR_ORDER           RGB               // GRB - WS2812B
 #define WIDTH                 1
-#define HEIGHT                37
+#define HEIGHT                1
 
 //Calculating number of leds
-#define NUM_LEDS WIDTH*HEIGHT
-
+#if WIDTH == 1 and HEIGHT == 1
+#define PREDEFINED_NUM_LEDS 300
+#else
+#define PREDEFINED_NUM_LEDS WIDTH*HEIGHT
+#endif
 //Soft AP configurations
 #define SERVER_HOST_NAME "FoViBalTLight_01"
 #define PASSWORD "123456789"
@@ -25,20 +28,18 @@ IPAddress serverIP(192, 168, 4, 1);     // Default ESP IP address
 //Protocol preferences
 const char root_previx[] =    "FoViBalTLight";  // root previx of protocol (root_previx:F:1:H:230..)
 const size_t argsLen =        100;              // maximum recieve date length
+const size_t argsArrayLength =  20;
 const size_t argsPrevixLen =  4;
 const char del[3] =           ":;";             // Default protocol value delimiter
 
 //Nmae of file to store last started effect
-const String SPIFFS_file_name =     "/effects.txt";
+const char* SPIFFS_file_name =     "/effects.txt";
 
 //Protocol parsing struct definition
-struct handler {
-  char handlerChar[argsPrevixLen];
-  short handlerVal;
-};
 
 //Defining an array of handled values
-handler WiFiHandler[argsLen];
+uint8_t WiFiHandler[argsArrayLength];
+uint16_t ledsDynamicNumber = 30;
 
 WiFiServer server(TCP_PORT); // Setting up server
 WiFiClient serverClients[MAX_CLIENTS]; // Limit num of conected clients
