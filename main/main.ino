@@ -16,6 +16,7 @@ char preRecv[argsLen];
 //char mSend[argsLen];
 //bool RequestRecieved = true;
 //bool WiFiConnection = false;
+uint8_t previousCountOfSoftAPConectedStations = 0;
 
 void setup() {
   Serial.begin(115200);
@@ -120,7 +121,9 @@ void loop() {
       
       tmp.toCharArray(recv, argsLen); // Converting tmp string to char array recv
       
-      if(WiFi.softAPgetStationNum() == 0){
+      if(WiFi.softAPgetStationNum() < previousCountOfSoftAPConectedStations){
+        Serial.println("Socket have been closed due all clients disconnection");
+        client.stop();
         //ESP.restart();
       }
 
@@ -128,7 +131,7 @@ void loop() {
         //Serial.println("Spam");
         continue;
       }
-      Serial.println(recv);
+      //Serial.println(recv);
       
       char toSPIFFS[argsLen];
       strcpy(toSPIFFS, recv);
@@ -139,8 +142,9 @@ void loop() {
       }
 
       strcpy(preRecv, toSPIFFS);
+      previousCountOfSoftAPConectedStations = WiFi.softAPgetStationNum();
     }
-
+    
   }
   //Serial.println("Client disconnected");
   client.stop();

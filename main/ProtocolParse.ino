@@ -32,8 +32,8 @@ uint8_t Tokenizer(char recv_msg[])
       {
         WiFiHandler[j] = atoi(token);
         j++;
-        Serial.print("j: ");
-        Serial.println(j);
+//        Serial.print("j: ");
+//        Serial.println(j);
       }
       if ((i % 2) == 1 and j == 0)
       {
@@ -46,14 +46,14 @@ uint8_t Tokenizer(char recv_msg[])
     i++;
   }
 
-  for(int i = 0; i < argsArrayLength; i++){
-    Serial.print("WiFiHandler ");
-    Serial.print(i);
-    Serial.print(" ");
-    Serial.println(WiFiHandler[i]);
-  }
-  Serial.print("msgType: ");
-  Serial.println(msgType);
+//  for(int i = 0; i < argsArrayLength; i++){
+//    Serial.print("WiFiHandler ");
+//    Serial.print(i);
+//    Serial.print(" ");
+//    Serial.println(WiFiHandler[i]);
+//  }
+//  Serial.print("msgType: ");
+//  Serial.println(msgType);
    
   return 1;
 }
