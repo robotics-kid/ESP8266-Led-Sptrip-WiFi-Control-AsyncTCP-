@@ -1,5 +1,5 @@
-
-/* clients events */
+/*
+ clients events 
 static void handleError(void* arg, AsyncClient* client, int8_t error) {
   Serial.printf("\n Connection error %s from client %s \n", client->errorToString(error), client->remoteIP().toString().c_str());
 }
@@ -13,36 +13,54 @@ static void handleTimeOut(void* arg, AsyncClient* client, uint32_t time) {
 }
 
 static void handleData(void* arg, AsyncClient* client, void *data, size_t len) {
-  Serial.printf("\n data received from client %s \n", client->remoteIP().toString().c_str());
+  //Serial.printf("\n data received from client %s \n", client->remoteIP().toString().c_str());
   //Serial.write((uint8_t*)data, len);
-
-  char recv[len];
-  memset(recv, 0, sizeof(char)*(len+10));
+  //Serial.println(millis());
   
-  for (int i = 0; i < len; i++) {
-    recv[i] = (char)((uint8_t*)data)[i];
+  memset(recv, 0, sizeof(char) * (argsLen));
 
+  //char util[len];
+  for (int i = 0; i < len; i++) {
+
+    char recvChar = (char)((uint8_t*)data)[i];
+    if (recvChar == '!')
+    {
+      /*for (int j = 0; j < len - i; j++)
+      {
+        util[j] = (char)((uint8_t*)data)[i];
+      }
+      break;
+    }
+    recv[i] = recvChar;
   }
   
-  Serial.println();
-  Serial.println(len);
-  Serial.println(recv);
-  
-  char toSPIFFS[len];
-  strcpy(toSPIFFS, recv);
+  //Serial.println(len);
+  //Serial.println(recv);
+  //Serial.println();
+  msg_recieved = true;
 
-  Tokenizer(recv);
-  effectHandler(toSPIFFS);
   /* reply to client
     if (client->space() > 32 && client->canSend()) {
     char reply[32];
     sprintf(reply, "this is from %s", SERVER_HOST_NAME);
     client->add(reply, strlen(reply));
     client->send();
-    }*/
+    }
+    //Seril.println(millis());
+  if (RequestRecieved) {
+    if (client->space() > argsLen && client->canSend()) {
+      //char reply[32];
+      //sprintf(reply, "this is from %s", SERVER_HOST_NAME);
+      client->add(mSend, strlen(mSend));
+      client->send();
+    }
+    RequestRecieved = false;
+  }
+  //Serial.println(millis());
+  //Serial.println();
 }
 
-/* server events */
+/* server events 
 static void handleNewClient(void* arg, AsyncClient* client) {
   Serial.printf("\n New client has been connected to server, IP: %s", client->remoteIP().toString().c_str());
 
@@ -54,4 +72,4 @@ static void handleNewClient(void* arg, AsyncClient* client) {
   client->onError(&handleError, NULL);
   client->onDisconnect(&handleDisconnect, NULL);
   client->onTimeout(&handleTimeOut, NULL);
-}
+}*/
