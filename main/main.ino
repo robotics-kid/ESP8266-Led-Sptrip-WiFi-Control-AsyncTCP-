@@ -53,7 +53,7 @@ void setup() {
 
   server.begin();
   server.setNoDelay(true);
-  client.setTimeout(5000);
+  client.setTimeout(500);
 
   /*    // start dns server
       if (!DNS.start(DNS_PORT, SERVER_HOST_NAME, WiFi.softAPIP()))
@@ -123,7 +123,7 @@ void loop() {
       
       if(WiFi.softAPgetStationNum() < previousCountOfSoftAPConectedStations){
         Serial.println("Socket have been closed due all clients disconnection");
-        client.stop();
+        //client.stop();
         //ESP.restart();
       }
 
@@ -131,7 +131,7 @@ void loop() {
         //Serial.println("Spam");
         continue;
       }
-      //Serial.println(recv);
+      Serial.println(recv);
       
       char toSPIFFS[argsLen];
       strcpy(toSPIFFS, recv);
@@ -146,6 +146,6 @@ void loop() {
     }
     
   }
-  //Serial.println("Client disconnected");
-  client.stop();
+  Serial.println("Client disconnected");
+  //client.stop();
 }
